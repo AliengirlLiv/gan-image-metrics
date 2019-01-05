@@ -2,3 +2,4 @@ mnist/
 pytorch-semseg/
 .ipynb_checkpoints/
 *.pth
+*.pyc
