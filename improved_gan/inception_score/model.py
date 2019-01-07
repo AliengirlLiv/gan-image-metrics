@@ -22,11 +22,11 @@ softmax = None
 # Call this function with list of images. Each of elements should be a 
 # numpy array with values ranging from 0 to 255.
 def get_inception_score(images, splits=10):
-  assert(type(images) == list)
-  assert(type(images[0]) == np.ndarray)
-  assert(len(images[0].shape) == 3)
-  assert(np.max(images[0]) > 10)
-  assert(np.min(images[0]) >= 0.0)
+  assert type(images) == list, "images should be a list, but it is %s" % str(type(images))
+  assert type(images[0]) == np.ndarray, "images should be numpy arrays, but they are %s" % str(type(images[0]))
+  assert len(images[0].shape) == 3, "wrong number of image dimensions; expected 3, got %i" % len(images[0].shape)
+  assert np.max(images[0]) > 10, "All image values were under 10"
+  assert np.min(images[0]) >= 0.0, "Negative image pixel values found"
   inps = []
   for img in images:
     img = img.astype(np.float32)
