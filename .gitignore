@@ -5,3 +5,6 @@ pytorch-semseg/
 .ipynb_checkpoints/
 *.pth
 *.pyc
+*.png
+*.tar.gz
+distances.txt

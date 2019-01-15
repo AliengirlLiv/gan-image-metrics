@@ -17,7 +17,21 @@ class SegmentationModuleBase(nn.Module):
         acc = acc_sum.float() / (pixel_sum.float() + 1e-10)
         return acc
 
+import subprocess
 
+def get_gpu_memory_map():
+    result = subprocess.check_output(
+        [
+            'nvidia-smi', '--query-gpu=memory.used',
+            '--format=csv,nounits,noheader'
+        ], encoding='utf-8')
+    # Convert lines into a dictionary
+    gpu_memory = [int(x) for x in result.strip().split('\n')]
+    gpu_memory_map = dict(zip(range(len(gpu_memory)), gpu_memory))
+    print("Memory: ", gpu_memory_map[0])
+    return gpu_memory_map
+    
+    
 class SegmentationModule(SegmentationModuleBase):
     def __init__(self, net_enc, net_dec, crit, deep_sup_scale=None):
         super(SegmentationModule, self).__init__()
@@ -484,13 +498,12 @@ class PPMDeepsup(nn.Module):
                 (input_size[2], input_size[3]),
                 mode='bilinear', align_corners=False))
         ppm_out = torch.cat(ppm_out, 1)
-
         x = self.conv_last(ppm_out)
-
+        
         # For using this model as an image metric
         if return_last_hidden:
             return x
-
+        
         if self.use_softmax:  # is True during inference
             x = nn.functional.interpolate(
                 x, size=segSize, mode='bilinear', align_corners=False)
