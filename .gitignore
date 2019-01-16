@@ -1,4 +1,7 @@
+*.jpg
+*.npz
 mnist/
 pytorch-semseg/
 .ipynb_checkpoints/
 *.pth
+*.pyc
