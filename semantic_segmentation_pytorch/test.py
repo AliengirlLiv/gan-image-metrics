@@ -119,7 +119,14 @@ def get_last_hidden(model, images):
     last_hidden_layer = model(feed_dict, segSize="dummy_segsize", return_last_hidden=True)
     return last_hidden_layer
 
-
+def get_embedding_func():
+    model = setup_test()
+    # Images should be batch x 3 channels x height x width
+    def embedding_func(images):
+        assert len(images.shape) == 4, "Images must have 4 dimensions"
+        assert images.shape[1] == 3, "Images must have 3 channels"
+        return get_last_hidden(model, images)
+    return embedding_func
 
 def setup_test(gpu_id=0, encoder_type="resnet50dilated", decoder_type="ppm_deepsup", fc_dim=2048, 
     model_path="baseline-resnet50dilated-ppm_deepsup", num_class=150, suffix="_epoch_20.pth"):
