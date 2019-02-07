@@ -1,5 +1,5 @@
 # gan-image-metrics
-GANgsters
+Team GANgsters
 
 To run the segmentation model: Import the file semantic-segmentation-model/test.py.  Load the segmentation model using its function setup_test().  To run the model on a single image, call get_last_hidden(model, img).  An example function test_all() shows this in action.
 
